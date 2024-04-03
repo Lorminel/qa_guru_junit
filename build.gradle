@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.lorminel22'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    testImplementation(
+            "com.codeborne:selenide:7.2.1",
+            "org.junit.jupiter:junit-jupiter:5.10.0"
+    )
+}
+
+test {
+    useJUnitPlatform {
+        if (project.hasProperty("includeTags")) {
+            includeTags(project.property("includeTags") as String)
+        }
+    }
+}
