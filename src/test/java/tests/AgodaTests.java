@@ -28,26 +28,26 @@ public class AgodaTests extends TestBase {
     @DisplayName("После смены валюты, выбранная валюта отображается на кнопке селектора")
     void selectedCurrencyShouldBeDisplayedOnCurrencyButton(Currency currency) {
         mainPage.openPage()
-                .selectCurrency(currency.currencyFullName)
-                .checkCurrencyName(currency.abbreviation);
+                .selectCurrency(currency.getCurrencyFullName())
+                .checkCurrencyName(currency.getAbbreviation());
     }
 
 
     static Stream<Arguments> pricesAreDisplayedInSelectedCurrencyAfterChange() {
-return Stream.of(
-        Arguments.of(
-                Currency.RUB,
-                "Belgrade"
-        ),
-        Arguments.of(
-                Currency.EUR,
-                "Toronto"
-        ),
-        Arguments.of(
-                Currency.USD,
-                "New York"
-        )
-);
+        return Stream.of(
+                Arguments.of(
+                        Currency.RUB,
+                        "Belgrade"
+                ),
+                Arguments.of(
+                        Currency.EUR,
+                        "Toronto"
+                ),
+                Arguments.of(
+                        Currency.USD,
+                        "New York"
+                )
+        );
     }
 
     @MethodSource
@@ -59,26 +59,26 @@ return Stream.of(
     @DisplayName("Цены для разных направлений отображаются в выбранной валюте после ее смены")
     void pricesAreDisplayedInSelectedCurrencyAfterChange(Currency currency, String destination) {
         mainPage.openPage()
-                .selectCurrency(currency.currencyFullName)
+                .selectCurrency(currency.getCurrencyFullName())
                 .selectDestination(destination)
                 .closeDateSelector()
                 .closeOccupancyBox()
                 .pressSearch();
 
-        offersPage.checkPriceCurrency(currency.abbreviation);
-}
+        offersPage.checkPriceCurrency(currency.getAbbreviation());
+    }
 
     @Disabled("AGD-33456")
     @CsvFileSource(resources = "/CurrencyFullNames.csv")
     @ParameterizedTest(name = "Валюта {0} {1}")
     @Tag("MINOR")
     @DisplayName("После переключения валюты она отображается в боковом меню")
-    void currencyShouldBeDisplayedInHamburgerMenu( String currencyAbbreviation, String currencyFullName){
+    void currencyShouldBeDisplayedInHamburgerMenu(String currencyAbbreviation, String currencyFullName) {
         mainPage.openPage()
                 .selectCurrency(currencyFullName)
                 .openHamburgerMenu()
                 .checkCurrencyInHamburgerMenu(currencyAbbreviation, currencyFullName);
-}
+    }
 
     @CsvFileSource(resources = "/LanguagesAndUrls.csv")
     @ParameterizedTest(name = "Адрес https://www.agoda.com{1} для языка {0}")
@@ -87,7 +87,7 @@ return Stream.of(
             @Tag("SMOKE")
     })
     @DisplayName("После переключения языка страница переключается на версию для выбранного региона")
-    void pageUrlShouldBeChangedAccordingToSelectedRegion( String language, String url){
+    void pageUrlShouldBeChangedAccordingToSelectedRegion(String language, String url) {
         mainPage.openPage()
                 .selectLanguage(language);
         webdriver().shouldHave(currentFrameUrlStartingWith(baseUrl + url));

@@ -5,8 +5,16 @@ public enum Currency {
     USD("USD", "Доллар США"),
     EUR("€", "Евро");
 
-    public final String abbreviation;
-    public final String currencyFullName;
+    private final String abbreviation;
+    private final String currencyFullName;
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public String getCurrencyFullName() {
+        return currencyFullName;
+    }
 
     Currency(String priceDisplay, String priceName) {
         this.abbreviation = priceDisplay;
