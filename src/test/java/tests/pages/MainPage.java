@@ -1,25 +1,23 @@
 package tests.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import tests.pages.components.CountryComponent;
+import tests.pages.components.CurrencyComponent;
+import tests.pages.components.HamburgerMenuComponent;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class MainPage {
-    private SelenideElement currencySelector = $("[data-selenium='currency-container-selected-currency']"),
-            currencyPopUp = $("[data-selenium='currency-popup']"),
-            destinationInput = $("#textInput"),
+    private SelenideElement destinationInput = $("#textInput"),
             checkInBox = $("#check-in-box"),
             occupancyBox = $("[data-element-name='occupancy-box'"),
             searchButton = $("[data-selenium='searchButton']"),
-            suggestedDestinationWrapper = $(".Searchbox__wrapper"),
-            hamburgerMenuButton = $("[data-selenium='header-hamburger-menu']"),
-            currencyContainerHamburgerMenu = $("[data-selenium='hamburger-menu-dropdown-container']")
-                    .$("[data-selenium='currency-container-selected-currency']"),
-            languageSelector = $("[data-selenium='language-container-selected-language']"),
-            languagePopUp = $("[data-selenium='language-popup']");
+            suggestedDestinationWrapper = $(".Searchbox__wrapper");
+
+    CountryComponent countryComponent = new CountryComponent();
+    CurrencyComponent currencyComponent = new CurrencyComponent();
+    HamburgerMenuComponent hamburgerMenuComponent = new HamburgerMenuComponent();
 
 
     public MainPage openPage() {
@@ -29,8 +27,7 @@ public class MainPage {
 
     public MainPage selectCurrency(String currency) {
 
-        currencySelector.click();
-        currencyPopUp.$(byText(currency)).closest("button").click();
+        currencyComponent.selectCurrency(currency);
 
         return this;
     }
@@ -57,24 +54,24 @@ public class MainPage {
     }
 
     public MainPage openHamburgerMenu() {
-        hamburgerMenuButton.click();
+        hamburgerMenuComponent.openHamburgerMenu();
         return this;
     }
 
     public MainPage selectLanguage(String language) {
-        languageSelector.click();
-        languagePopUp.$(byText(language)).closest("button").click();
+        countryComponent.selectLanguage(language);
         return this;
     }
 
     public MainPage checkCurrencyName(String currency) {
-        currencySelector.shouldHave(text(currency));
+        currencyComponent.checkCurrencyName(currency);
 
         return this;
     }
 
     public MainPage checkCurrencyInHamburgerMenu(String currencyAbbreviation, String currencyName) {
-        currencyContainerHamburgerMenu.shouldHave(text(currencyAbbreviation + " " + currencyName));
+        hamburgerMenuComponent.checkCurrencyInHamburgerMenu(
+                currencyAbbreviation, currencyName);
         return this;
     }
 
